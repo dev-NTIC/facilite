@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STREAM System - TV Financing with Al Salam Bank</title>
+    <link rel="stylesheet" href="/css/index-styles.css" />
+
+</head>
+
+<body>
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-overlay" onclick="closeMobileMenu()"></div>
+        <div class="mobile-menu">
+            <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+            <a href="/" class="mobile-nav-item active">Home</a>
+            <a href="/auth/login" class="mobile-nav-item">Espace personnel</a>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section id="home" class="hero">
+                <div class="container">
+                    <div class="hero-container">
+                        <div class="hero-content">
+                            <h1 class="hero-headline">
+                                Get a STREAM TV starting at just 3990 DZD
+                            </h1>
+                            <p class="hero-subheadline">
+                                Thanks to our partnership with Al Salam Bank, enjoy financing up to 36 months with zero down payment for your favorite TV!
+                            </p>
+                            <div class="hero-buttons">
+                                <a href="#simulator" class="hero-btn outlined" onclick="scrollToSimulator()">
+                                    ℹ simulate
+                                </a>
+                                <!-- <a href="#conditions" class="hero-btn filled" onclick="showConditions()">
+                                    📄 Conditions
+                                </a> -->
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="tv-showcase">
+                                <div class="tv-placeholder">
+                                    <div class="tv-screen">
+                                        <img src="/img/hero.webp" alt="stream TV" />
+                                    </div>
+                                </div>
+                                <div class="financing-badge">
+                                    <span class="badge-line badge-main">
+                                        100% Financé
+                                    </span>
+                                    <span class="badge-line badge-sub">
+                                        de 12 à 36 mois
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulator Section -->
+            <section id="simulator" class="simulator-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">TV Financing Simulator</h2>
+                        <p class="section-subtitle">
+                            Choose your TV and get instant financing details
+                        </p>
+                        <div class="bank-partnership">
+                            In partnership with Al Salam Bank
+                        </div>
+                    </div>
+
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step1-indicator">
+                            <div class="step-number">1</div>
+                            <span>Select TV</span>
+                        </div>
+                        <div class="step" id="step2-indicator">
+                            <div class="step-number">2</div>
+                            <span>Calculate Financing</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Product Selection -->
+                    <div id="step1" class="step-content">
+                        <div class="products-grid" id="products-grid" style="
+                                display: grid !important;
+                                visibility: visible !important;
+                            ">
+                            <!-- TV Products Grid -->
+                            <div class="product-card" data-product-id="1">
+                                <div class="tv-icon">📺</div>
+                                <div class="product-name">
+                                    TV 55" UHD 4K Google TV
+                                </div>
+                                <div class="product-specs">
+                                    Frameless, Mini LED 144 Hz
+                                </div>
+                                <div class="price-info">
+                                    <div class="monthly-payment">3,990 DZD</div>
+                                    <div class="duration">
+                                        per month for 36 months
+                                    </div>
+                                </div>
+                                <button class="select-btn" onclick="selectProduct(1)">
+                                    Sélectionner
+                                </button>
+                            </div>
+
+                            <div class="product-card" data-product-id="2">
+                                <div class="tv-icon">📺</div>
+                                <div class="product-name">
+                                    TV 65" UHD 4K Google TV
+                                </div>
+                                <div class="product-specs">
+                                    Frameless, Mini LED 60 Hz
+                                </div>
+                                <div class="price-info">
+                                    <div class="monthly-payment">4,990 DZD</div>
+                                    <div class="duration">
+                                        per month for 36 months
+                                    </div>
+                                </div>
+                                <button class="select-btn" onclick="selectProduct(2)">
+                                    Sélectionner
+                                </button>
+                            </div>
+
+                            <div class="product-card" data-product-id="3">
+                                <div class="tv-icon">📺</div>
+                                <div class="product-name">
+                                    TV 70" UHD 4K Google TV
+                                </div>
+                                <div class="product-specs">
+                                    Frameless, Built-in Demo
+                                </div>
+                                <div class="price-info">
+                                    <div class="monthly-payment">6,990 DZD</div>
+                                    <div class="duration">
+                                        per month for 36 months
+                                    </div>
+                                </div>
+                                <button class="select-btn" onclick="selectProduct(3)">
+                                    Sélectionner
+                                </button>
+                            </div>
+
+                            <div class="product-card" data-product-id="4">
+                                <div class="tv-icon">📺</div>
+                                <div class="product-name">
+                                    TV 85" UHD 4K Google TV
+                                </div>
+                                <div class="product-specs">
+                                    Frameless, Mini LED 144 Hz
+                                </div>
+                                <div class="price-info">
+                                    <div class="monthly-payment">
+                                        11,990 DZD
+                                    </div>
+                                    <div class="duration">
+                                        per month for 36 months
+                                    </div>
+                                </div>
+                                <button class="select-btn" onclick="selectProduct(4)">
+                                    Sélectionner
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Financing Calculator -->
+                    <div id="step2" class="step-content hidden">
+                        <div class="calculator-form">
+                            <div class="form-section">
+                                <h3 class="form-section-title">Selected TV</h3>
+                                <div id="selected-tv-card" class="selected-tv-card">
+                                    <!-- Selected TV card will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="form-section-title">
+                                    Customer Information
+                                </h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fullName">
+                                            Full Name *
+                                        </label>
+                                        <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" />
+                                        <div class="error-message" id="fullName-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="birthDate">
+                                            Birth Date *
+                                        </label>
+                                        <input type="date" id="birthDate" class="form-input" />
+                                        <div class="error-message" id="birthDate-error"></div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="salary">
+                                            Monthly Salary (DZD) *
+                                        </label>
+                                        <input type="number" id="salary" class="form-input" placeholder="20,000" min="0" />
+                                        <div class="error-message" id="salary-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="spouseSalary">
+                                            Spouse Salary (DZD)
+                                        </label>
+                                        <input type="number" id="spouseSalary" class="form-input" placeholder="Optional" min="0" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="form-section-title">
+                                    Financing Duration
+                                </h3>
+                                <div class="duration-selector">
+                                    <div class="duration-buttons" id="duration-buttons">
+                                        <!-- Duration buttons will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="form-section-title">
+                                    Financing Details
+                                </h3>
+                                <div class="results-grid" id="results-grid">
+                                    <!-- Results will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div id="eligibility-status" class="eligibility-status hidden">
+                                <!-- Eligibility status will be populated by JavaScript -->
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" id="back-btn">
+                                    ← Back to TV Selection
+                                </button>
+                                <a class="btn btn-success" href="/auth/login">
+                                    Apply Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-label">Email</div>
+                        <div>sarlbomare@streamsystem.net</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Phone</div>
+                        <div>+213 (0) 28 05 36 39</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Customer Service</div>
+                        <div>0560 01 28 41</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Website</div>
+                        <div>www.streamsystem.dz</div>
+                    </div>
+                </div>
+                <div style="
+                        margin-top: 20px;
+                        color: #666;
+                        font-size: 0.9em;
+                        text-align: center;
+                    ">
+                    © 2024 Bomare Company - Stream System
+                </div>
+            </div>
+        </footer>
+        <script>
+            var allProdcuts = `<%- JSON.stringify(products) %>`;
+            allProdcuts = JSON.parse(allProdcuts);
+        </script>
+        <script src="/js/index.js"></script>
+</body>
+
+</html>

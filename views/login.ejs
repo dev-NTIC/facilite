@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">STREAM</div>
+                    <h1>Espace Personnel</h1>
+                    <p class="auth-subtitle">Connectez-vous pour accéder à vos dossiers</p>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                        <form action="/auth/login" method="POST">
+                            <div class="form-group">
+                                <label class="form-label">Numéro de téléphone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="+213 560 01 28 41" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Mot de passe</label>
+                                <input type="password" name="password" class="form-control" placeholder="Entrez votre mot de passe" required>
+                            </div>
+
+                            <div class="form-options">
+                                <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Se souvenir de moi</span>
+          </label>
+                                <a href="#" class="link-secondary">Mot de passe oublié?</a>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary btn--full">Se connecter</button>
+                        </form>
+
+                        <div class="auth-footer">
+                            <p>Vous n'avez pas de compte?</p>
+                            <a href="/auth/register" class="btn btn--outline btn--full">Créer un compte</a>
+                        </div>
+            </div>
+        </div>
+</body>
+
+</html>

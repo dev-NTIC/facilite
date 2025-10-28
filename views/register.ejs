@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">STREAM</div>
+                    <h1>Créer un compte</h1>
+                    <p class="auth-subtitle">Remplissez le formulaire pour vous inscrire</p>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                        <form action="/auth/register" method="POST">
+                            <div class="form-group">
+                                <label class="form-label">Nom complet</label>
+                                <input type="text" name="fullName" class="form-control" placeholder="Ahmed Benali" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="ahmed@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Numéro de téléphone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="+213 560 01 28 41" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Mot de passe</label>
+                                <input type="password" name="password" class="form-control" placeholder="Minimum 8 caractères" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Confirmer le mot de passe</label>
+                                <input type="password" name="confirmPassword" class="form-control" placeholder="Confirmez votre mot de passe" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-label">
+            <input type="checkbox" name="terms" required>
+            <span>J'accepte les <a href="#" class="link-primary">conditions d'utilisation</a></span>
+          </label>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary btn--full">S'inscrire</button>
+                        </form>
+
+                        <div class="auth-footer">
+                            <p>Vous avez déjà un compte?</p>
+                            <a href="/auth/login" class="btn btn--outline btn--full">Se connecter</a>
+                        </div>
+            </div>
+        </div>
+</body>
+
+</html>

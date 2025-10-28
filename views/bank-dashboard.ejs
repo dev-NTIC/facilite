@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="stylesheet" href="/css/dashboard-styles.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">AL SALAM BANK</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/bank/dashboard" class="sidebar-link active">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+          </svg>
+                    <span>Validation finale</span>
+                </a>
+
+                <a href="/" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          </svg>
+                    <span>Site web</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/auth/logout" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Validation finale des dossiers</h1>
+                    <p class="dashboard-subtitle">Dossiers pré-approuvés par l'administrateur</p>
+                </div>
+                <div>
+                    <span style="color: #626C71;">Banque : <%= user.full_name %></span>
+                </div>
+            </header>
+
+            <!-- Dashboard body -->
+            <div class="dashboard-content">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon--blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2H6a2 2 0 0 0-2 
+                          2v16a2 2 0 0 0 2
+                          2h12a2 2 0 0 0 2-2V9z"></path>
+              </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">Total des dossiers</p>
+                            <p class="stat-value">
+                                <%= stats.total %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon--green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">Approuvés</p>
+                            <p class="stat-value">
+                                <%= stats.approved %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon--yellow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                ircle cx="12" cy="12" r r="10"></circle>
+              </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">En attente</p>
+                            <p class="stat-value">
+                                <%= stats.pending %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon--red">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+                        </div>
+                        <div>
+                            <p class="stat-label">Rejetés</p>
+                            <p class="stat-value">
+                                <%= stats.rejected %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table of dossiers -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Dossiers à valider</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Client</th>
+                                    <th>Produit</th>
+                                    <th>Montant</th>
+                                    <th>Date</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (files.length === 0) { %>
+                                    <tr>
+                                        <td colspan="7" style="text-align:center; padding:40px;">
+                                            Aucun dossier disponible
+                                        </td>
+                                    </tr>
+                                    <% } else { %>
+                                        <% files.forEach(file => { %>
+                                            <tr data-status="<%= file.status %>">
+                                                <td>
+                                                    <%= file.reference %>
+                                                </td>
+                                                <td>
+                                                    <%= file.client_name %>
+                                                </td>
+                                                <td>
+                                                    <%= file.product_name %>
+                                                </td>
+                                                <td>
+                                                    <%= file.product_price.toLocaleString('fr-FR') %> DZD</td>
+                                                <td>
+                                                    <%= new Date(file.created_at).toLocaleDateString('fr-FR') %>
+                                                </td>
+                                                <td>
+                                                    <span class="status status--<%= file.status %>">
+                      <% if (file.status === 'pending') { %>En attente<% } %>
+                      <% if (file.status === 'processing') { %>Traitement<% } %>
+                      <% if (file.status === 'approved') { %>Approuvé<% } %>
+                      <% if (file.status === 'rejected') { %>Rejeté<% } %>
+                    </span>
+                                                </td>
+                                                <td>
+                                                    <div style="display:flex;gap:8px;">
+                                                        <button class="btn btn--sm btn--outline" onclick="viewFile('<%= file.id %>')">👁️ Voir</button>
+                                                        <% if (!file.bank_validated) { %>
+                                                            <button class="btn btn--sm" style="background:#10B981;color:white;" onclick="approveFile('<%= file.id %>')">✓ Valider</button>
+                                                            <button class="btn btn--sm" style="background:#EF4444;color:white;" onclick="rejectFile('<%= file.id %>')">✗ Rejeter</button>
+                                                            <% } %>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal to display dossier details -->
+    <div class="modal-overlay" id="fileModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Détails du dossier</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeModal()">Fermer</button>
+                <button class="btn" style="background:#10B981;color:white;" onclick="approveFromModal()">✓ Valider</button>
+                <button class="btn" style="background:#EF4444;color:white;" onclick="rejectFromModal()">✗ Rejeter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Chargement...</p>
+        </div>
+    </div>
+
+    <script src="/js/bank.js"></script>
+</body>
+
+</html>

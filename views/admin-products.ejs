@@ -1,0 +1,236 @@
+<!--  prettier-ignore -->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css" />
+    <link rel="stylesheet" href="/css/dashboard-styles.css" />
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Admin Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">STREAM ADMIN</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                            <polyline points="13 2 13 9 20 9"></polyline>
+                        </svg>
+                    <span>Dossiers clients</span>
+                </a>
+
+                <a href="/admin/products" class="sidebar-link active">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect
+                                x="2"
+                                y="7"
+                                width="20"
+                                height="14"
+                                rx="2"
+                                ry="2"></rect>
+                            <path
+                                d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    <span>Produits</span>
+                </a>
+
+                <a href="/" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                    <span>Site web</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/auth/logout" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Gestion des produits</h1>
+                    <p class="dashboard-subtitle">
+                        Ajouter, modifier ou supprimer des produits
+                    </p>
+                </div>
+                <button class="btn btn--primary" onclick="openAddProductModal()">
+                        + Ajouter un produit
+                    </button>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Liste des produits (<%= products.length %>)</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Prix</th>
+                                    <th>Mensualité (36m)</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (products.length === 0) { %>
+                                    <tr>
+                                        <td colspan="7" style="
+                                                text-align: center;
+                                                padding: 40px;
+                                            ">
+                                            Aucun produit pour le moment
+                                        </td>
+                                    </tr>
+                                    <% } else { %>
+                                        <% products.forEach(product=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= product.id %>
+                                                </td>
+                                                <td>
+                                                    <strong><%= product.name %></strong>
+                                                </td>
+                                                <td>
+                                                    <%= product.description %>
+                                                </td>
+                                                <td>
+                                                    <%= product.price.toLocaleString('fr-FR') %> DZD
+                                                </td>
+                                                <td>
+                                                    <%= product.monthly_price_36 ? product.monthly_price_36.toLocaleString('fr-FR') + ' DZD' : '-' %>
+                                                </td>
+                                                <td>
+                                                    <span class="status <%= product.is_active ? 'status--approved' : 'status--rejected' %>">
+                                                <%= product.is_active ? 'Actif'
+                                                : 'Inactif' %>
+                                            </span>
+                                                </td>
+                                                <td>
+                                                    <div style="display: flex; gap: 8px">
+                                                        <button class="btn btn--sm btn--outline" onclick="openEditProductModal('<%= product.id %>')">
+                                                    ✏️ Modifier
+                                                </button>
+                                                        <button class="btn btn--sm" style="
+                                                        background: #ef4444;
+                                                        color: white;
+                                                    " onclick="deleteProduct('<%= product.id %>')">
+                                                    🗑️ Supprimer
+                                                </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">
+                    Ajouter un produit
+                </h2>
+                <button class="modal-close" onclick="closeProductModal()">
+                        &times;
+                    </button>
+            </div>
+            <form id="productForm">
+                <div class="modal-body">
+                    <input type="hidden" id="productId" />
+
+                    <div class="form-group">
+                        <label class="form-label">Nom du produit *</label>
+                        <input type="text" id="productName" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea id="productDescription" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prix (DZD) *</label>
+                            <input type="number" id="productPrice" class="form-control" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                    Mensualité 36 mois (DZD)
+                                </label>
+                            <input type="number" id="productMonthly" class="form-control" step="0.01" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Spécifications</label>
+                        <textarea id="productSpecs" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                                <input
+                                    type="checkbox"
+                                    id="productActive"
+                                    checked />
+                                <span>Produit actif</span>
+                            </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn--outline" onclick="closeProductModal()">
+                            Annuler
+                        </button>
+                    <button type="submit" class="btn btn--primary">
+                            Enregistrer
+                        </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Chargement...</p>
+        </div>
+    </div>
+
+    <script src="/js/products.js"></script>
+</body>
+
+</html>

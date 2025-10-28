@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="stylesheet" href="/css/dashboard-styles.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">STREAM</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#profile" class="sidebar-link active" data-section="profile">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+                    <span>Profil</span>
+                </a>
+
+                <a href="/dashboard" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+            <polyline points="13 2 13 9 20 9"></polyline>
+          </svg>
+                    <span>Mes dossiers</span>
+                </a>
+
+                <a href="/" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          </svg>
+                    <span>Accueil</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/auth/logout" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Mon Profil</h1>
+                    <p class="dashboard-subtitle">Gérez vos informations personnelles</p>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <% if (success_msg && success_msg.length && success_msg[0]) { %>
+                    <div class="alert alert-success" style="margin-bottom: 24px; padding: 16px; background: #D1FAE5; border: 1px solid #10B981; border-radius: 8px; color: #065F46;">
+                        ✓
+                        <%= success_msg[0] %>
+                    </div>
+                    <% } %>
+
+                        <% if (error && error.length && error[0]) { %>
+                            <div class="alert alert-error" style="margin-bottom: 24px; padding: 16px; background: #FEE2E2; border: 1px solid #EF4444; border-radius: 8px; color: #991B1B;">
+                                ✗
+                                <%= error[0] %>
+                            </div>
+                            <% } %>
+
+                                <!-- Profile Information Card -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2>Informations du compte</h2>
+                                    </div>
+                                    <div class="card-body" style="padding: 24px;">
+                                        <form id="profileForm" action="/profile/update" method="POST">
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label class="form-label">Nom complet</label>
+                                                    <input type="text" name="full_name" class="form-control" value="<%= user.full_name %>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email" name="email" class="form-control" value="<%= user.email %>" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label class="form-label">Téléphone</label>
+                                                    <input type="tel" name="phone" class="form-control" value="<%= user.phone %>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Rôle</label>
+                                                    <input type="text" class="form-control" value="<%= user.role === 'user' ? 'Client' : user.role === 'admin' ? 'Administrateur' : 'Banque' %>" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">Compte créé le</label>
+                                                <input type="text" class="form-control" value="<%= new Date(user.created_at).toLocaleDateString('fr-FR') %>" disabled>
+                                            </div>
+
+                                            <div style="margin-top: 24px;">
+                                                <button type="submit" class="btn btn--primary">Mettre à jour le profil</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Change Password Card -->
+                                <div class="card" style="margin-top: 24px;">
+                                    <div class="card-header">
+                                        <h2>Changer le mot de passe</h2>
+                                    </div>
+                                    <div class="card-body" style="padding: 24px;">
+                                        <form id="passwordForm" action="/profile/change-password" method="POST">
+                                            <div class="form-group">
+                                                <label class="form-label">Mot de passe actuel</label>
+                                                <input type="password" name="current_password" class="form-control" required>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label class="form-label">Nouveau mot de passe</label>
+                                                    <input type="password" name="new_password" class="form-control" minlength="6" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Confirmer le mot de passe</label>
+                                                    <input type="password" name="confirm_password" class="form-control" minlength="6" required>
+                                                </div>
+                                            </div>
+
+                                            <div style="margin-top: 24px;">
+                                                <button type="submit" class="btn btn--primary">Changer le mot de passe</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Account Statistics -->
+                                <div class="card" style="margin-top: 24px;">
+                                    <div class="card-header">
+                                        <h2>Statistiques du compte</h2>
+                                    </div>
+                                    <div class="card-body" style="padding: 24px;">
+                                        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                                            <div class="stat-card">
+                                                <div class="stat-icon stat-icon--blue">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                  </svg>
+                                                </div>
+                                                <div>
+                                                    <p class="stat-label">Dossiers soumis</p>
+                                                    <p class="stat-value">
+                                                        <%= stats.total %>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="stat-card">
+                                                <div class="stat-icon stat-icon--green">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                                                </div>
+                                                <div>
+                                                    <p class="stat-label">Approuvés</p>
+                                                    <p class="stat-value">
+                                                        <%= stats.approved %>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="stat-card">
+                                                <div class="stat-icon stat-icon--yellow">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                                                </div>
+                                                <div>
+                                                    <p class="stat-label">En attente</p>
+                                                    <p class="stat-value">
+                                                        <%= stats.pending %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Mise à jour en cours...</p>
+        </div>
+    </div>
+
+    <script>
+        // Show loading on form submit
+        document.getElementById('profileForm').addEventListener('submit', function() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        });
+
+        document.getElementById('passwordForm').addEventListener('submit', function() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> - Stream System</title>
+    <link rel="stylesheet" href="/css/shared-styles.css" />
+    <link rel="stylesheet" href="/css/dashboard-styles.css" />
+    <link rel="stylesheet" href="/css/financing-form.css" />
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">STREAM</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        </svg>
+                    <span>Mes dossiers</span>
+                </a>
+                <a href="/" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                    <span>Accueil</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/auth/logout" class="sidebar-link">
+                    <svg class="sidebar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">
+                        Nouvelle demande de financement
+                    </h1>
+                    <p class="dashboard-subtitle">
+                        Remplissez le formulaire ci-dessous
+                    </p>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <!-- Steps Indicator -->
+                <div class="steps-container">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-info">
+                            <div class="step-title">Produit</div>
+                            <div class="step-desc">Sélection TV</div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-info">
+                            <div class="step-title">Informations</div>
+                            <div class="step-desc">Personnelles</div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-info">
+                            <div class="step-title">Financement</div>
+                            <div class="step-desc">Calcul</div>
+                        </div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-info">
+                            <div class="step-title">Documents</div>
+                            <div class="step-desc">Pièces jointes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form id="financingForm" action="/financing/create" method="POST" enctype="multipart/form-data">
+                    <!-- Step 1: Product Selection -->
+                    <!-- Step 1: Product Selection -->
+                    <div class="form-step active" data-step="1">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Choisissez votre produit TV</h2>
+                            </div>
+                            <div class="card-body" style="padding: 24px;">
+                                <div class="form-group">
+                                    <label class="form-label">Rechercher un produit *</label>
+                                    <input type="text" id="productSearch" class="form-control" placeholder="Tapez pour rechercher..." autocomplete="off">
+                                    <div id="productDropdown" class="product-dropdown"></div>
+                                </div>
+
+                                <div id="selectedProductDisplay" class="selected-product" style="display: none;">
+                                    <h3>Produit sélectionné:</h3>
+                                    <div class="product-info">
+                                        <p><strong id="displayProductName"></strong></p>
+                                        <p id="displayProductDesc"></p>
+                                        <p class="product-price" id="displayProductPrice"></p>
+                                        <p id="displayProductMonthly"></p>
+                                    </div>
+                                    <button type="button" class="btn btn--outline" id="cancelProductBtn" style="margin-top: 12px;">
+          ✕ Annuler la sélection
+        </button>
+                                </div>
+
+                                <input type="hidden" name="productId" id="selectedProductId" required>
+                                <input type="hidden" name="productName" id="productName">
+                                <input type="hidden" name="productPrice" id="productPrice">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Step 2: Personal Info -->
+                    <div class="form-step" data-step="2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Informations personnelles</h2>
+                            </div>
+                            <div class="card-body" style="padding: 24px">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Nom complet *
+                                            </label>
+                                        <input type="text" name="fullName" class="form-control" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Date de naissance *
+                                            </label>
+                                        <input type="date" name="birthDate" id="birthDate" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Téléphone *
+                                            </label>
+                                        <input type="tel" name="phone" class="form-control" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Email
+                                            </label>
+                                        <input type="email" name="email" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Adresse *
+                                            </label>
+                                        <input type="text" name="address" class="form-control" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Wilaya *
+                                            </label>
+                                        <select name="wilaya" class="form-control" required>
+                                                <option value="">
+                                                    Sélectionnez...
+                                                </option>
+                                                <option value="Alger">
+                                                    Alger
+                                                </option>
+                                                <option value="Oran">
+                                                    Oran
+                                                </option>
+                                                <option value="Constantine">
+                                                    Constantine
+                                                </option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                            Situation familiale *
+                                        </label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="maritalStatus"
+                                                    value="single"
+                                                    required />
+                                                Célibataire
+                                            </label>
+                                        <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="maritalStatus"
+                                                    value="married" />
+                                                Marié(e)
+                                            </label>
+                                        <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="maritalStatus"
+                                                    value="divorced" />
+                                                Divorcé(e)
+                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Financial Info -->
+                    <div class="form-step" data-step="3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Informations financières</h2>
+                            </div>
+                            <div class="card-body" style="padding: 24px">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Salaire mensuel *
+                                            </label>
+                                        <input type="number" name="clientSalary" id="clientSalary" class="form-control" min="20000" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Salaire conjoint
+                                            </label>
+                                        <input type="number" name="spouseSalary" id="spouseSalary" class="form-control" min="0" value="0" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Durée *
+                                            </label>
+                                        <select name="duration" id="duration" class="form-control" required>
+                                                <option value="6">
+                                                    6 mois
+                                                </option>
+                                                <option value="12">
+                                                    12 mois
+                                                </option>
+                                                <option value="24">
+                                                    24 mois
+                                                </option>
+                                                <option value="36" selected>
+                                                    36 mois
+                                                </option>
+                                                <option value="48">
+                                                    48 mois
+                                                </option>
+                                                <option value="60">
+                                                    60 mois
+                                                </option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                                Type d'emploi *
+                                            </label>
+                                        <select name="employmentType" id="employmentType" class="form-control" required>
+                                                <option value="">
+                                                    Sélectionnez...
+                                                </option>
+                                                <option value="public">
+                                                    Secteur public
+                                                </option>
+                                                <option value="private">
+                                                    Secteur privé
+                                                </option>
+                                                <option value="retired">
+                                                    Retraité
+                                                </option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                            Autres financements
+                                        </label>
+                                    <input type="number" name="otherFinancing" id="otherFinancing" class="form-control" min="0" value="0" />
+                                </div>
+                                <input type="hidden" name="monthlyPayment" id="monthlyPayment" />
+                                <input type="hidden" name="totalPayment" id="totalPayment" />
+                                <input type="hidden" name="paymentRatio" id="paymentRatio" />
+                                <input type="hidden" name="isEligible" id="isEligible" />
+                                <div class="calculation-results">
+                                    <h3>Résumé</h3>
+                                    <div class="results-grid">
+                                        <div class="result-item">
+                                            <span class="result-label">
+                                                    Mensualité
+                                                </span>
+                                            <span class="result-value" id="displayMonthly">
+                                                    ---
+                                                </span>
+                                        </div>
+                                        <div class="result-item">
+                                            <span class="result-label">
+                                                    Total
+                                                </span>
+                                            <span class="result-value" id="displayTotal">
+                                                    ---
+                                                </span>
+                                        </div>
+                                        <div class="result-item">
+                                            <span class="result-label">
+                                                    Ratio
+                                                </span>
+                                            <span class="result-value" id="displayRatio">
+                                                    ---
+                                                </span>
+                                        </div>
+                                        <div class="result-item">
+                                            <span class="result-label">
+                                                    Éligibilité
+                                                </span>
+                                            <span class="result-value" id="displayEligible">
+                                                    ---
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Documents -->
+                    <div class="form-step" data-step="4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Documents requis</h2>
+                            </div>
+                            <div class="card-body" style="padding: 24px">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                            CNI (recto-verso)
+                                        </label>
+                                    <input type="file" name="cni" class="form-control" accept="image/*,.pdf" multiple />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                            Fiches de paie
+                                        </label>
+                                    <input type="file" name="payslips" class="form-control" accept="image/*,.pdf" multiple />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                            Attestation de travail
+                                        </label>
+                                    <input type="file" name="work_certificate" class="form-control" accept="image/*,.pdf" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                            <input type="checkbox" required />
+                                            <span>
+                                                Je certifie l'exactitude des
+                                                informations
+                                            </span>
+                                        </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn--outline" id="prevBtn" style="display: none">
+                                ← Précédent
+                            </button>
+                        <button type="button" class="btn btn--primary" id="nextBtn">
+                                Suivant →
+                            </button>
+                        <button type="submit" class="btn btn--primary" id="submitBtn" style="display: none">
+                                Soumettre
+                            </button>
+                        <a href="/dashboard" class="btn btn--outline">
+                                Annuler
+                            </a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Envoi en cours...</p>
+        </div>
+    </div>
+
+    <script src="/js/financing-form.js"></script>
+</body>
+
+</html>

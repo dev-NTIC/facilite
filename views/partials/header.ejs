@@ -1,0 +1,15 @@
+<header style="background: #1a1a1a; color: white; padding: 16px 0; position: sticky; top: 0; z-index: 100;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="/" style="font-size: 24px; font-weight: 900; color: white; text-decoration: none;">STREAM</a>
+        <nav style="display: flex; gap: 24px; align-items: center;">
+            <a href="/" style="color: white; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#21808D'" onmouseout="this.style.color='white'">Home</a>
+            <% if (user) { %>
+                <a href="/dashboard" style="color: white; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#21808D'" onmouseout="this.style.color='white'">Espace personnel</a>
+                <a href="/auth/logout" style="color: white; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#21808D'" onmouseout="this.style.color='white'">Déconnexion</a>
+                <% } else { %>
+                    <a href="/auth/login" style="color: white; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#21808D'" onmouseout="this.style.color='white'">Se connecter</a>
+                    <% } %>
+                        <a href="#contact" style="color: white; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#21808D'" onmouseout="this.style.color='white'">Contacter nous</a>
+        </nav>
+    </div>
+</header>
