@@ -1,42 +1,41 @@
 // Application data
 console.table(allProdcuts);
-// const products = allProdcuts.map((p) => ({
-//     id: p.id,
-//     name: p.name,
-//     specs: p.description,
-//     monthly_36m: p.monthly_price_36,
-//     price_36m: p.price,
-// }));
-const products = [
-    {
-        id: 1,
-        name: 'TV 55" UHD (4K) Google TV',
-        specs: "Frameless, Mini LED 144 Hz, Built-in Demo",
-        monthly_36m: 3990,
-        price_36m: 143640,
-    },
-    {
-        id: 2,
-        name: 'TV 65" UHD (4K) Google TV',
-        specs: "Frameless, Mini LED 60 Hz, Built-in Demo",
-        monthly_36m: 4990,
-        price_36m: 179640,
-    },
-    {
-        id: 3,
-        name: 'TV 70" UHD (4K) Google TV',
-        specs: "Frameless, Built-in Demo",
-        monthly_36m: 6990,
-        price_36m: 251640,
-    },
-    {
-        id: 4,
-        name: 'TV 85" UHD (4K) Google TV',
-        specs: "Frameless, Mini LED 144 Hz, Built-in Demo",
-        monthly_36m: 11990,
-        price_36m: 431640,
-    },
-];
+const products = allProdcuts.map((p) => ({
+    id: p.id,
+    name: p.name,
+    specs: p.description,
+    monthly_36m: p.monthly_price_36,
+    price_36m: p.price,
+}));
+// const products = [{
+//         id: 1,
+//         name: 'TV 55" UHD (4K) Google TV',
+//         specs: "Frameless, Mini LED 144 Hz, Built-in Demo",
+//         monthly_36m: 3990,
+//         price_36m: 143640,
+//     },
+//     {
+//         id: 2,
+//         name: 'TV 65" UHD (4K) Google TV',
+//         specs: "Frameless, Mini LED 60 Hz, Built-in Demo",
+//         monthly_36m: 4990,
+//         price_36m: 179640,
+//     },
+//     {
+//         id: 3,
+//         name: 'TV 70" UHD (4K) Google TV',
+//         specs: "Frameless, Built-in Demo",
+//         monthly_36m: 6990,
+//         price_36m: 251640,
+//     },
+//     {
+//         id: 4,
+//         name: 'TV 85" UHD (4K) Google TV',
+//         specs: "Frameless, Mini LED 144 Hz, Built-in Demo",
+//         monthly_36m: 11990,
+//         price_36m: 431640,
+//     },
+// ];
 
 const financingParams = {
     annualMarginRate: 0.09,
@@ -590,9 +589,9 @@ function calculateFinancing() {
 
 // Check eligibility based on criteria
 function checkEligibility(totalIncome, tvPrice) {
-    const age = document.getElementById("birthDate").value
-        ? calculateAge(document.getElementById("birthDate").value)
-        : 0;
+    const age = document.getElementById("birthDate").value ?
+        calculateAge(document.getElementById("birthDate").value) :
+        0;
     const fullName = document.getElementById("fullName").value.trim();
     const salary = parseInt(document.getElementById("salary").value) || 0;
 
@@ -652,15 +651,13 @@ function checkEligibility(totalIncome, tvPrice) {
     if (ratio > 40) {
         return {
             eligible: false,
-            message:
-                "Monthly payment exceeds 40% of your income. Consider longer duration or higher income.",
+            message: "Monthly payment exceeds 40% of your income. Consider longer duration or higher income.",
         };
     }
 
     return {
         eligible: true,
-        message:
-            "You meet all eligibility criteria. You can proceed with the application.",
+        message: "You meet all eligibility criteria. You can proceed with the application.",
     };
 }
 
